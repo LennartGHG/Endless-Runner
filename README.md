@@ -1,6 +1,11 @@
 # spiel-versuch
 This is a endless runner game I programmed
 
+CONTROLS: 
+jump: W/arrow up/space bar
+crouch: S/arrow down
+reset(in the game over scene): W/arrow up/space bar
+
 To run it on your computer, you have to follow these steps:
 1. Download Godot
 2. Download the code as a zip File
