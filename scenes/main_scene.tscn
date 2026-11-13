@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://ddken2378o74e"]
+
+[ext_resource type="PackedScene" uid="uid://bhbou6pnigumx" path="res://scenes/Level.tscn" id="1_pu3yx"]
+[ext_resource type="Script" uid="uid://br1p0ont42cbu" path="res://code/spawn_manager.gd" id="2_pu3yx"]
+[ext_resource type="PackedScene" uid="uid://b8dfg4o48xnug" path="res://scenes/game_over.tscn" id="3_rt2n2"]
+[ext_resource type="PackedScene" uid="uid://4rasyjhet0c7" path="res://player/player.tscn" id="4_c16ls"]
+
+[sub_resource type="GDScript" id="GDScript_rhs2r"]
+script/source = "extends Node2D
+var score = 0
+@onready var label: Label = $CanvasLayer/Label
+@onready var game_over: CanvasLayer = $GameOver
+
+
+func _process(delta):
+	score +=delta * 5
+	label.text = \"Score:\" + str(int(score))
+
+
+func _physics_process(delta):
+	if GameManager.obj_speed < GameManager.max_obj_speed:
+		GameManager.obj_speed += GameManager.obj_acceleration * delta
+		
+		
+	if GameManager.world_speed < GameManager.max_world_speed:
+		GameManager.max_world_speed += GameManager.obj_acceleration * delta
+func on_player_died():
+	
+	var final_score = int(score)
+	
+	if final_score > GameManager.high_score:
+		GameManager.high_score =final_score
+		GameManager.save_high_score()
+	
+	GameManager.reset_values()
+	game_over.show_game_over(int(score), int(GameManager.high_score))
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_w5fdt"]
+font_size = 12
+
+[node name="Main" type="Node2D" unique_id=2110121226]
+script = SubResource("GDScript_rhs2r")
+
+[node name="Level" parent="." unique_id=360119485 instance=ExtResource("1_pu3yx")]
+
+[node name="SpawnManager" type="Node2D" parent="." unique_id=91876384]
+script = ExtResource("2_pu3yx")
+
+[node name="Spawn Timer" type="Timer" parent="." unique_id=929325606]
+wait_time = 1.5
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2136384127]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1498462732]
+oversampling_with_scale = 1
+texture_filter = 1
+offset_left = 255.0
+offset_top = 5.0
+offset_right = 301.0
+offset_bottom = 22.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_w5fdt")
+metadata/_edit_use_anchors_ = true
+
+[node name="GameOver" parent="." unique_id=854465145 instance=ExtResource("3_rt2n2")]
+visible = false
+
+[node name="Player" parent="." unique_id=2597530 instance=ExtResource("4_c16ls")]
+position = Vector2(-4, 23)
+
+[connection signal="timeout" from="Spawn Timer" to="SpawnManager" method="_on_spawn_timer_timeout"]

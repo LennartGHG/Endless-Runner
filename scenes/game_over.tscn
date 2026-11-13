@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://b8dfg4o48xnug"]
+
+[ext_resource type="Texture2D" uid="uid://c88kgidvhk40j" path="res://Bilder usw/Restart button.png" id="1_y26ei"]
+[ext_resource type="Script" uid="uid://dsdeqpp7ts5r3" path="res://code/game_over.gd" id="1_yxx3c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w5fdt"]
+font_size = 19
+
+[sub_resource type="LabelSettings" id="LabelSettings_8156h"]
+font_size = 10
+
+[node name="GameOver" type="CanvasLayer" unique_id=854465145]
+process_mode = 2
+script = ExtResource("1_yxx3c")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1602107721]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label_Title" type="Label" parent="." unique_id=789106003]
+offset_left = 102.0
+offset_top = 15.0
+offset_right = 211.0
+offset_bottom = 42.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_w5fdt")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label_Score" type="Label" parent="." unique_id=1656353151]
+anchors_preset = -1
+anchor_right = 0.346875
+offset_left = 86.0
+offset_top = 89.0
+offset_right = 116.0
+offset_bottom = 103.0
+text = "Score:"
+label_settings = SubResource("LabelSettings_8156h")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label_Recorde" type="Label" parent="." unique_id=1941607590]
+offset_left = 86.0
+offset_top = 103.0
+offset_right = 228.0
+offset_bottom = 117.0
+text = "Recorde:"
+label_settings = SubResource("LabelSettings_8156h")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1352544075]
+position = Vector2(154, 65)
+scale = Vector2(0.6666667, 0.6875)
+texture = ExtResource("1_y26ei")

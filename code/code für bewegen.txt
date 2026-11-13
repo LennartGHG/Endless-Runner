@@ -1,0 +1,40 @@
+extends CharacterBody2D
+
+@export var Speed = 120
+@export var acceleration = 900
+@export var friction = 900
+@export var jump_strenght = 100
+@export var gravity =200
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
+
+
+func _physics_process(delta: float) -> void:
+	move(delta)
+	move_and_slide()
+	
+	
+func move(delta):
+	var seitlich = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	if seitlich > 0:
+		animated_sprite_2d.flip_h =false 
+	elif seitlich<0:
+		animated_sprite_2d.flip_h =true
+	
+	var hoch = Input.get_action_strength("move_down") - Input.get_action_strength("jump")
+	
+	if abs(seitlich) > 0:
+		animated_sprite_2d.play("walk")
+		velocity.x = move_toward(velocity.x, seitlich * Speed, delta*acceleration)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, delta*friction)
+		animated_sprite_2d.stop()
+		
+	if Input.is_action_just_pressed("jump")and is_on_floor():
+		velocity.y = -jump_strenght
+	if not is_on_floor():
+		animated_sprite_2d.stop()
+		animated_sprite_2d.play("jump")
+		
+	velocity.y += gravity * delta
